@@ -12,6 +12,7 @@ body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(to bottom right, rgb(var(--background-start-rgb)), rgb(var(--background-end-rgb)));
   min-height: 100vh;
+  line-height: 0.5 !important;
 }
 
 @layer utilities {

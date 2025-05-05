@@ -58,10 +58,7 @@ export default function Home() {
 
     try {
       const html2canvas = (await import('html2canvas')).default;
-      const canvas = await html2canvas(quoteRef.current, {
-        backgroundColor: null,
-        scale: 2,
-      });
+      const canvas = await html2canvas(quoteRef.current);
 
       const image = canvas.toDataURL('image/png');
       const link = document.createElement('a');
@@ -97,6 +94,9 @@ export default function Home() {
             <div className="space-y-2">
               <label className="font-bold text-lg text-white">Quote</label>
               <textarea
+                style={{
+                  lineHeight: 'normal',
+                }}
                 value={customeQuote}
                 onChange={(e) => setCustomQuote(e.target.value)}
                 className="border-2 border-white/30 bg-white/20 text-white w-full p-2 rounded-md"
@@ -108,6 +108,10 @@ export default function Home() {
 
         <div
           ref={quoteRef}
+          id="capture_div"
+          style={{
+            lineHeight: 'normal',
+          }}
           className="relative overflow-hidden border-2 border-blue-400 shadow-xl"
         >
           <div className="bg-[#00008B] p-6 md:p-8">
@@ -117,12 +121,16 @@ export default function Home() {
                   <div className="absolute inset-0 bg-red-600"></div>
                   <div className="absolute inset-0 top-1/2 bg-white"></div>
                 </div>
-                <span className="text-white font-bold">{customAuthor}</span>
+                <span className="text-white text-sm sm:text-md font-bold">
+                  {customAuthor}
+                </span>
               </div>
-              <span className="text-white text-sm">{currentDate}</span>
+              <span className="text-white text-xs sm:text-sm">
+                {currentDate}
+              </span>
             </div>
 
-            <p className="text-xl md:text-2xl text-white font-medium mb-6">
+            <p className="text-md sm:text-xl md:text-2xl text-white font-medium mb-6">
               {customeQuote}
             </p>
 
