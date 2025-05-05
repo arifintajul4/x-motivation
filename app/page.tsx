@@ -137,17 +137,17 @@ export default function Home() {
             <div className="flex items-center space-x-6 text-white">
               <div className="flex items-center">
                 <ThumbsUp className="h-5 w-5 mr-1.5 fill-white" />
-                <span className="text-base">{likes}</span>
+                <span className="text-sm sm:text-base">{likes}</span>
               </div>
               <div className="flex items-center">
                 <ThumbsDown className="h-5 w-5 mr-1.5 fill-white" />
-                <span className="text-base">{dislikes}</span>
+                <span className="text-sm sm:text-base">{dislikes}</span>
               </div>
               <div>
-                <span className="text-base">Reply</span>
+                <span className="text-sm sm:text-base">Reply</span>
               </div>
               <div>
-                <span className="text-base">Report</span>
+                <span className="text-sm sm:text-base">Report</span>
               </div>
             </div>
           </div>
