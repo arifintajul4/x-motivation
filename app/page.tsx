@@ -1,75 +1,77 @@
-"use client"
+'use client';
 
-import { useState, useRef, useEffect } from "react"
-import { Download, RefreshCw } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { ThumbsUp, ThumbsDown } from "lucide-react"
-import quotesData from "@/data/quotes.json"
+import { useState, useRef, useEffect } from 'react';
+import { Download, RefreshCw } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { ThumbsUp, ThumbsDown } from 'lucide-react';
+import quotesData from '@/data/quotes.json';
 
 export default function Home() {
   const [currentQuote, setCurrentQuote] = useState<{
-    text: string
-    author: string
-  }>({ text: "", author: "Anonymous" })
-  const [customAuthor, setCustomAuthor] = useState("Anonymous")
-  const [likes, setLikes] = useState(5)
-  const [dislikes, setDislikes] = useState(1)
-  const [isGenerating, setIsGenerating] = useState(false)
-  const quoteRef = useRef<HTMLDivElement>(null)
-  const [currentDate, setCurrentDate] = useState("")
+    text: string;
+    author: string;
+  }>({ text: '', author: 'Anonymous' });
+  const [customAuthor, setCustomAuthor] = useState('Anonymous');
+  const [customeQuote, setCustomQuote] = useState('');
+  const [likes, setLikes] = useState(5);
+  const [dislikes, setDislikes] = useState(1);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const quoteRef = useRef<HTMLDivElement>(null);
+  const [currentDate, setCurrentDate] = useState('');
 
   useEffect(() => {
-    generateQuote()
-    updateDateTime()
+    generateQuote();
+    updateDateTime();
     // Update the date/time every minute
-    const interval = setInterval(updateDateTime, 60000)
-    return () => clearInterval(interval)
-  }, [])
+    const interval = setInterval(updateDateTime, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   const updateDateTime = () => {
-    const now = new Date()
+    const now = new Date();
     const options: Intl.DateTimeFormatOptions = {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
       hour12: true,
-    }
-    setCurrentDate(now.toLocaleDateString("en-US", options))
-  }
+    };
+    setCurrentDate(now.toLocaleDateString('en-US', options));
+  };
 
   const generateQuote = () => {
-    setIsGenerating(true)
-    const randomIndex = Math.floor(Math.random() * quotesData.quotes.length)
-    const newQuote = quotesData.quotes[randomIndex]
-    setCurrentQuote(newQuote)
-    setCustomAuthor(newQuote.author)
-    setLikes(Math.floor(Math.random() * 10) + 1)
-    setDislikes(Math.floor(Math.random() * 3))
-    setTimeout(() => setIsGenerating(false), 500)
-  }
+    setIsGenerating(true);
+    const randomIndex = Math.floor(Math.random() * quotesData.quotes.length);
+    const newQuote = quotesData.quotes[randomIndex];
+    setCurrentQuote(newQuote);
+    setCustomAuthor(newQuote.author);
+    setCustomQuote(newQuote.text);
+    setLikes(Math.floor(Math.random() * 10) + 1);
+    setDislikes(Math.floor(Math.random() * 3));
+    setTimeout(() => setIsGenerating(false), 500);
+  };
 
   const downloadImage = async () => {
-    if (!quoteRef.current) return
+    if (!quoteRef.current) return;
 
     try {
-      const html2canvas = (await import("html2canvas")).default
+      const html2canvas = (await import('html2canvas')).default;
       const canvas = await html2canvas(quoteRef.current, {
         backgroundColor: null,
         scale: 2,
-      })
+      });
 
-      const image = canvas.toDataURL("image/png")
-      const link = document.createElement("a")
-      link.href = image
-      link.download = "motivational-quote.png"
-      link.click()
+      const image = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = image;
+      link.download = 'motivational-quote.png';
+      link.click();
     } catch (error) {
-      console.error("Error generating image:", error)
+      console.error('Error generating image:', error);
     }
-  }
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-4 bg-gradient-to-br from-indigo-900 via-blue-900 to-indigo-800">
@@ -81,7 +83,9 @@ export default function Home() {
         <div className="bg-white/10 backdrop-blur-sm p-6 rounded-lg shadow-lg">
           <div className="space-y-4">
             <div className="space-y-2">
-              <label className="font-bold text-lg text-white">Author Name</label>
+              <label className="font-bold text-lg text-white">
+                Author Name
+              </label>
               <Input
                 type="text"
                 value={customAuthor}
@@ -90,10 +94,22 @@ export default function Home() {
                 placeholder="Enter author name"
               />
             </div>
+            <div className="space-y-2">
+              <label className="font-bold text-lg text-white">Quote</label>
+              <textarea
+                value={customeQuote}
+                onChange={(e) => setCustomQuote(e.target.value)}
+                className="border-2 border-white/30 bg-white/20 text-white w-full p-2 rounded-md"
+                placeholder="Enter your quote here"
+              ></textarea>
+            </div>
           </div>
         </div>
 
-        <div ref={quoteRef} className="relative overflow-hidden border-2 border-blue-400 shadow-xl">
+        <div
+          ref={quoteRef}
+          className="relative overflow-hidden border-2 border-blue-400 shadow-xl"
+        >
           <div className="bg-[#00008B] p-6 md:p-8">
             <div className="flex justify-between items-center mb-4">
               <div className="flex items-center gap-2">
@@ -106,7 +122,9 @@ export default function Home() {
               <span className="text-white text-sm">{currentDate}</span>
             </div>
 
-            <p className="text-xl md:text-2xl text-white font-medium mb-6">{currentQuote.text}</p>
+            <p className="text-xl md:text-2xl text-white font-medium mb-6">
+              {customeQuote}
+            </p>
 
             <div className="flex items-center space-x-6 text-white">
               <div className="flex items-center">
@@ -133,7 +151,9 @@ export default function Home() {
             disabled={isGenerating}
             className="bg-yellow-500 hover:bg-yellow-600 text-black border-2 border-yellow-600 rounded-md px-6 py-5 text-lg font-bold transition-all"
           >
-            <RefreshCw className={`mr-2 h-5 w-5 ${isGenerating ? "animate-spin" : ""}`} />
+            <RefreshCw
+              className={`mr-2 h-5 w-5 ${isGenerating ? 'animate-spin' : ''}`}
+            />
             Generate Quote
           </Button>
 
@@ -154,9 +174,10 @@ export default function Home() {
           rel="noopener noreferrer"
           className="text-white hover:text-yellow-300 transition-colors inline-flex items-center"
         >
-          Created with <span className="text-red-500 mx-1">❤️</span> by Tajul Arifin S
+          Created with <span className="text-red-500 mx-1">❤️</span> by Tajul
+          Arifin S
         </a>
       </footer>
     </main>
-  )
+  );
 }
