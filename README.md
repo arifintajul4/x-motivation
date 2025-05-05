@@ -12,6 +12,28 @@ A web application that generates motivational quotes with a social media post-li
 - Social media post-like appearance with likes, dislikes, reply, and report options
 - Responsive design for all devices
 
+## Quotes Database
+
+All motivational quotes are stored in a JSON file located at `data/quotes.json`. This makes it easy to:
+
+- Add new quotes
+- Modify existing quotes
+- Translate quotes to different languages
+
+The structure of the quotes JSON file is as follows:
+
+```json
+{
+  "quotes": [
+    {
+      "text": "Quote text goes here",
+      "author": "Author Name"
+    }
+    // more quotes...
+  ]
+}
+```
+
 ## Installation
 
 Follow these steps to set up the project locally:
